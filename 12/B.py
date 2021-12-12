@@ -11,8 +11,7 @@ for edge in edges:
         adjList[t] = []
     if t != "start":
         adjList[f].append(t)
-    if f != "start":
-        adjList[t].append(f)
+    adjList[t].append(f)
 
 
 def isSmall(c):

@@ -9,21 +9,17 @@ for edge in edges:
         adjList[f] = []
     if not t in adjList:
         adjList[t] = []
-    adjList[f].append(t)
     if t != "start":
         adjList[f].append(t)
-    if f != "start":
-        adjList[t].append(f)
-
+    adjList[t].append(f)
 
 def isSmall(c):
     return c.upper() != c
 
-
 def findPaths(node, prev, visited):
     if node == "end":
         prev += "end"
-        # print(prev)
+        #print(prev)
         return 1
     prev += node + ","
     if node in visited:
@@ -40,6 +36,5 @@ def findPaths(node, prev, visited):
 def start():
     count = findPaths("start", "", set())
     print(count)
-
 
 start()
