@@ -11,17 +11,18 @@ for edge in edges:
         adjList[t] = []
     if t != "start":
         adjList[f].append(t)
-    adjList[t].append(f)
+    if f != "start":
+        adjList[t].append(f)
 
 def isSmall(c):
     return c.upper() != c
 
-def findPaths(node, prev, visited):
+def findPaths(node, pathStr, visited):
     if node == "end":
-        prev += "end"
-        #print(prev)
+        pathStr += "end"
+        #print(pathStr)
         return 1
-    prev += node + ","
+    pathStr += node + ","
     if node in visited:
         return 0
     if isSmall(node):
@@ -29,7 +30,7 @@ def findPaths(node, prev, visited):
     count = 0
     for n in adjList[node]:
         visCopy = visited.copy()
-        count += findPaths(n, prev, visCopy)
+        count += findPaths(n, pathStr, visCopy)
     return count
 
 
