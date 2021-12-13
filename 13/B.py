@@ -20,6 +20,7 @@ dots = set()
 for coord in coords:
     dots.add(coord)
 
+
 def doFolds():
     endSet = dots
     for fold in folds:
@@ -27,8 +28,10 @@ def doFolds():
         if "y" in fold:
             for coords in endSet:
                 if coords[1] > fold["y"]:
-                    foldedCoords = (coords[0], coords[1] +
-                                    (fold["y"] - coords[1]) * 2)
+                    foldedCoords = (
+                        coords[0],
+                        coords[1] + (fold["y"] - coords[1]) * 2
+                    )
                     newSet.add(foldedCoords)
                 else:
                     newSet.add(coords)
@@ -36,12 +39,15 @@ def doFolds():
             for coords in endSet:
                 if coords[0] > fold["x"]:
                     foldedCoords = (
-                        coords[0] + (fold["x"] - coords[0]) * 2, coords[1])
+                        coords[0] + (fold["x"] - coords[0]) * 2,
+                        coords[1]
+                    )
                     newSet.add(foldedCoords)
                 else:
                     newSet.add(coords)
         endSet = newSet
     return endSet
+
 
 def printDots(dots):
     maxX, maxY = 0, 0
