@@ -6,7 +6,6 @@ with open('input') as input:
 
 start_time = time.perf_counter()
 INPUT_SIZE = len(input)
-# SIZE = INPUT_SIZE
 SIZE = INPUT_SIZE * 5
 SOURCE = (0, 0)
 TARGET = (SIZE - 1, SIZE - 1) 
@@ -42,8 +41,6 @@ buckets = [[] for _ in range(10)]
 
 def addToBucket(distance, node):
     buckets[distance % 10].append(node)
-def removeFromBucket(distance, node):
-    buckets[distance % 10].remove(node)
 def getBucket(distance):
     return buckets[distance % 10]
 
@@ -51,6 +48,7 @@ def getBucket(distance):
 buckets[0].append(SOURCE)
 pathCost = dict()
 pathCost[SOURCE] = 0
+parent = dict()
 
 def dials():
     for i in range(MAX_POSSIBLE_DISTANCE):
@@ -60,18 +58,19 @@ def dials():
             if next == TARGET:
                 return pathCost[next]
             for n in getNeighbours(*next):
-                newCost = pathCost[next] + cost[n[0]][n[1]]
-                if n in pathCost:
-                    if newCost < pathCost[n]:
-                        removeFromBucket(pathCost[n], n)
-                        pathCost[n] = newCost
-                        addToBucket(pathCost[n], n) 
-                # neighbour was in "infinity" bucket
-                else:
+                if n not in pathCost:
+                    # since there is no cheaper way to next
+                    # and all edges to n cost the same, we will never reach n in a cheaper way
+                    # so the first time we check a node will be the final one
+                    newCost = pathCost[next] + cost[n[0]][n[1]]
                     pathCost[n] = newCost
-                    addToBucket(pathCost[n], n)        
-
+                    addToBucket(pathCost[n], n)
+                    parent[n] = next
 setup_time = time.perf_counter()
 print("Setup time:", setup_time - start_time)
 print("Result:", dials())
 print("Runtime:", time.perf_counter() - setup_time)
+# path = [TARGET]
+# while path[-1] in parent:
+#     path.append(parent[path[-1]])
+# print(path)
